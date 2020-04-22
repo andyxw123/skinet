@@ -26,11 +26,13 @@ namespace API
 
                 try
                 {
+                    //DATABASE MIGRATION
                     var context = services.GetRequiredService<StoreContext>();
                     await context.Database.MigrateAsync();
 
                     if (isDevelopment)
                     {
+                        //SEED DATA
                         await StoreContextSeed.SeedAsync(context, loggerFactory);
                     }
                 }

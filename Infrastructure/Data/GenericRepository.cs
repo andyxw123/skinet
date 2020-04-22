@@ -23,7 +23,7 @@ namespace Infrastructure.Data
             return await _context.Set<T>().FindAsync(id);
         }
 
-        public async Task<System.Collections.Generic.IEnumerable<T>> ListAllAsync()
+        public async Task<List<T>> ListAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }
@@ -32,7 +32,7 @@ namespace Infrastructure.Data
             return await ApplySpec(spec).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> GetEntitiesWithSpec(ISpecification<T> spec)
+        public async Task<List<T>> GetEntitiesWithSpec(ISpecification<T> spec)
         {
             return await ApplySpec(spec).ToListAsync();
         }

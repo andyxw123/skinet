@@ -1,16 +1,18 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productRepo;
         private readonly IGenericRepository<ProductBrand> _brandRepo;
@@ -30,42 +32,44 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<ActionResult<ProductForReturnDto[]>> GetProducts()
         {
             var productsFromRepo = await _productRepo.GetEntitiesWithSpec(new ProductsWithTypesAndBrandsSpec());
 
             var productsForReturn = _mapper.Map<ProductForReturnDto[]>(productsFromRepo);
 
-            return Ok(productsForReturn);
+            return productsForReturn;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProduct(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)] // Swagger will pick up the schema for the ProductForReturnDto
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)] // Adds additional info to the Swagger documentation (if needed)
+        public async Task<ActionResult<ProductForReturnDto>> GetProduct(int id)
         {
             var productFromRepo = await _productRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpec(id));
 
             if (productFromRepo == null)
             {
-                return NotFound();
+                return ApiResponse.NotFound();
             }
 
             var productForReturn = _mapper.Map<ProductForReturnDto>(productFromRepo);
 
-            return Ok(productForReturn);
+            return productForReturn;
         }
 
         [HttpGet("brands")]
-        public async Task<IActionResult> GetProductBrands()
+        public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
             var brands = await _brandRepo.ListAllAsync();
-            return Ok(brands);
+            return brands;
         }
 
         [HttpGet("types")]
-        public async Task<IActionResult> GetProductTypes()
+        public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
             var types = await _typeRepo.ListAllAsync();
-            return Ok(types);
+            return types;
         }
     }
 }
