@@ -53,14 +53,16 @@ namespace API
                 endpoints.MapControllers();
             });
 
+            // If there's problems with HTTPS in Chrome for development add the following to appsettings.Development.json
+            // "Kestrel": {
+            //    "EndpointDefaults": {
+            //      "Protocols": "Http1"
+            //    }
+            //  }
+            app.UseHttpsRedirection();
+
             // Enable serving of static files
             app.UseStaticFiles();
-
-            //Using HTTP in development as the self signed HTTPS certs doesn't work with Chrome
-            if (!env.IsDevelopment())
-            {
-                app.UseHttpsRedirection();
-            }
 
             // ../Extensions/IApplicationBuilderExtensions.cs
             app.AddExceptionMiddleware()

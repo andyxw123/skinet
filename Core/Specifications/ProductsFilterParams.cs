@@ -2,7 +2,7 @@ using Core.Classes;
 
 namespace Core.Specifications
 {
-    public class ProductsFilterSpecParams : PaginationParams
+    public class ProductsFilterParams : PaginationParams
     {
         public int? BrandId { get; set; }
 
@@ -11,8 +11,8 @@ namespace Core.Specifications
         private string _nameSearch;
         public string NameSearch
         {
-            get => string.IsNullOrWhiteSpace(_nameSearch) ? null : _nameSearch.Trim().ToLower();
-            set => _nameSearch = value;
+            get => _nameSearch;
+            set => _nameSearch = string.IsNullOrWhiteSpace(value) ? null : value.Trim().ToLower();
         }
         
     }

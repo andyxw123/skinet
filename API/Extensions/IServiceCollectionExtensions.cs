@@ -34,7 +34,6 @@ namespace API.Extensions
 
         public static IServiceCollection AppRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Note the empty angle brackets as the generic type isn't known yet
 
             return services;

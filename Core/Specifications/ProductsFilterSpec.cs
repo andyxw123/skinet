@@ -20,7 +20,7 @@ namespace Core.Specifications
             this.AddCriteria(x => x.Id == id);
         }
 
-        public ProductsFilterSpec(ProductsFilterSpecParams productParams)
+        public ProductsFilterSpec(ProductsFilterParams productParams)
            : this()
         {
             if (productParams == null)
@@ -43,7 +43,7 @@ namespace Core.Specifications
                 AddCriteria(x => x.Name.ToLower().Contains(productParams.NameSearch));
             }
 
-            switch (productParams.SortToLower())
+            switch (productParams.Sort)
             {
                 case "priceasc":
                     AddOrderBy(x => x.Price);

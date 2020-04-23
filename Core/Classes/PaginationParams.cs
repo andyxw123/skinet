@@ -12,10 +12,11 @@ namespace Core.Classes
             get => _pageSize;
             set => _pageSize = value < 50 ? value : MaxPageSize;
         }
-        public string Sort { get; set; }
-        public string SortToLower()
-        {
-            return string.IsNullOrWhiteSpace(Sort) ? null : Sort.Trim().ToLower();
-        }
+       private string _sort;
+       public string Sort
+       {
+           get => _sort;
+           set => _sort = string.IsNullOrWhiteSpace(value) ? null : value.Trim().ToLower();
+       }
     }
 }
