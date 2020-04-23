@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
 using AutoMapper;
+using Core.Classes;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
@@ -32,11 +33,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductForReturnDto[]>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductForReturnDto>>> GetProducts([FromQuery] ProductsFilterSpecParams productParams)
         {
-            var productsFromRepo = await _productRepo.GetEntitiesWithSpec(new ProductsWithTypesAndBrandsSpec());
+            var spec = new ProductsFilterSpec(productParams);
 
-            var productsForReturn = _mapper.Map<ProductForReturnDto[]>(productsFromRepo);
+            var productsForReturn = await _productRepo.GetEntitiesPaged<ProductForReturnDto>(spec, productParams, (products) => _mapper.Map<ProductForReturnDto[]>(products));
 
             return productsForReturn;
         }
@@ -46,7 +47,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)] // Adds additional info to the Swagger documentation (if needed)
         public async Task<ActionResult<ProductForReturnDto>> GetProduct(int id)
         {
-            var productFromRepo = await _productRepo.GetEntityWithSpec(new ProductsWithTypesAndBrandsSpec(id));
+            var productFromRepo = await _productRepo.GetEntity(new ProductsFilterSpec(id));
 
             if (productFromRepo == null)
             {
@@ -59,16 +60,16 @@ namespace API.Controllers
         }
 
         [HttpGet("brands")]
-        public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
+        public async Task<ActionResult<ProductBrand[]>> GetProductBrands()
         {
-            var brands = await _brandRepo.ListAllAsync();
+            var brands = await _brandRepo.GetAllAsync();
             return brands;
         }
 
         [HttpGet("types")]
-        public async Task<ActionResult<List<ProductType>>> GetProductTypes()
+        public async Task<ActionResult<ProductType[]>> GetProductTypes()
         {
-            var types = await _typeRepo.ListAllAsync();
+            var types = await _typeRepo.GetAllAsync();
             return types;
         }
     }

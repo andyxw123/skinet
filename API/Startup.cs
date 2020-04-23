@@ -16,16 +16,24 @@ namespace API
             _config = config;
         }
 
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            // The following are defined in ../Extenstions/IServiceCollectionExtensions.cs
-            services.ConfigureApiValidationErrorResponse()
+            // Configure Cross Origin Requests policy
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                });
+            });
+
+            // ../Extensions/IServiceCollectionExtensions.cs
+            services.AddConfigureApiValidationErrorResponse()
                 .AddDataContexts(_config)
-                .AddRepositories()
+                .AppRepositories()
                 .AddAutoMapperProfiles()
                 .AddSwaggerDocumentation();
         }
@@ -33,11 +41,20 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // ERROR HANDLING: Add own middleware to handle exceptions (500: Internal Server Error)
-            app.UseMiddleware<ExceptionMiddleware>(); // ../Middleware/ExceptionMiddleware.cs
+            app.UseRouting();
 
-            // ERROR HANDLING: Add redirection to an error controller to standardise the response if the enpoint is not found
-            app.UseStatusCodePagesWithReExecute("/errors/{0}");
+            // Use the CORS policy configured in Services
+            app.UseCors("CorsPolicy");
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            // Enable serving of static files
+            app.UseStaticFiles();
 
             //Using HTTP in development as the self signed HTTPS certs doesn't work with Chrome
             if (!env.IsDevelopment())
@@ -45,20 +62,10 @@ namespace API
                 app.UseHttpsRedirection();
             }
 
-            app.UseRouting();
-
-            //Added to allow static content (images etc) to be served up
-            app.UseStaticFiles();
-
-            app.UseAuthorization();
-
-            // API DOCUMENTATION (Also added in the ConfigureServices(..) method above)
-            app.UseSwaggerDocumentation();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            // ../Extensions/IApplicationBuilderExtensions.cs
+            app.AddExceptionMiddleware()
+                .UseErrorController()
+                .UseSwaggerDocumentation();
         }
     }
 }

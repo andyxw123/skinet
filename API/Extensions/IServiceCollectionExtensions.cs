@@ -32,7 +32,7 @@ namespace API.Extensions
             return services;
         }
 
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        public static IServiceCollection AppRepositories(this IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Note the empty angle brackets as the generic type isn't known yet
@@ -41,7 +41,7 @@ namespace API.Extensions
         }
 
         // Standardise ModelState validation errors in a ApiValidationErrorResponse instance - MUST be done AFTER .AddControllers()
-        public static IServiceCollection ConfigureApiValidationErrorResponse(this IServiceCollection services)
+        public static IServiceCollection AddConfigureApiValidationErrorResponse(this IServiceCollection services)
         {
             services.Configure<ApiBehaviorOptions>(options =>
             {

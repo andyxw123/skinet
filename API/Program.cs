@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using API.Extensions;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,34 +14,17 @@ namespace API
     {
         public static async Task Main(string[] args)
         {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var isDevelopment = environment == Environments.Development;
-
             var host = CreateHostBuilder(args).Build();
 
             // Enabled automatic database migration on startup
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                var environment = services.GetService<IWebHostEnvironment>();
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
 
-                try
-                {
-                    //DATABASE MIGRATION
-                    var context = services.GetRequiredService<StoreContext>();
-                    await context.Database.MigrateAsync();
-
-                    if (isDevelopment)
-                    {
-                        //SEED DATA
-                        await StoreContextSeed.SeedAsync(context, loggerFactory);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    var logger = loggerFactory.CreateLogger<Program>();
-                    logger.LogError(ex, "An error occured during database migration");
-                }
+                // ../Extensions/IServiceProviderExtensions.cs
+                await services.MigrateDatabaseAndSeedData(loggerFactory, isSeedingData: environment.IsDevelopment());
             }
 
             host.Run();
