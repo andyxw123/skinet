@@ -31,7 +31,7 @@ namespace API
             });
 
             // ../Extensions/IServiceCollectionExtensions.cs
-            services.AddConfigureApiValidationErrorResponse()
+            services.AddApiValidationErrorResponseConfig()
                 .AddDataContexts(_config)
                 .AppRepositories()
                 .AddAutoMapperProfiles()
@@ -65,7 +65,7 @@ namespace API
             app.UseStaticFiles();
 
             // ../Extensions/IApplicationBuilderExtensions.cs
-            app.AddExceptionMiddleware()
+            app.UseExceptionMiddleware()
                 .UseErrorController()
                 .UseSwaggerDocumentation();
         }

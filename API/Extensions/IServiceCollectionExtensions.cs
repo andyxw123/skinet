@@ -40,7 +40,7 @@ namespace API.Extensions
         }
 
         // Standardise ModelState validation errors in a ApiValidationErrorResponse instance - MUST be done AFTER .AddControllers()
-        public static IServiceCollection AddConfigureApiValidationErrorResponse(this IServiceCollection services)
+        public static IServiceCollection AddApiValidationErrorResponseConfig(this IServiceCollection services)
         {
             services.Configure<ApiBehaviorOptions>(options =>
             {

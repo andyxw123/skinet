@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
@@ -7,7 +5,7 @@ using AutoMapper;
 using Core.Classes;
 using Core.Entities;
 using Core.Interfaces;
-using Core.Specifications;
+using Core.Specifications.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,6 @@
 using Core.Classes;
 
-namespace Core.Specifications
+namespace Core.Specifications.Products
 {
     public class ProductsFilterParams : PaginationParams
     {

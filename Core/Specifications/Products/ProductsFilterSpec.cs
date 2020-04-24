@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using Core.Entities;
 using Core.Interfaces;
 
-namespace Core.Specifications
+namespace Core.Specifications.Products
 {
     public class ProductsFilterSpec : BaseSpecification<Product>
     {

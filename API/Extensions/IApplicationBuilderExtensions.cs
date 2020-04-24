@@ -5,7 +5,7 @@ namespace API.Extensions
 {
     public static class IApplicationBuilderExtensions
     {
-        public static IApplicationBuilder AddExceptionMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app)
         {
             // ERROR HANDLING: Add own middleware to handle exceptions (500: Internal Server Error)
             app.UseMiddleware<ExceptionMiddleware>(); // ../Middleware/ExceptionMiddleware.cs
