@@ -1,0 +1,22 @@
+<table>
+  <tr>
+    <td>
+      <select class="form-control" name="pageSize" [(ngModel)]="pagingParams.pageSize"
+        (change)="onPageSizeChanged($event)">
+        <option *ngFor="let pageSize of pagingParams.itemsPerPageOptions()">
+          {{pageSize}}
+        </option>
+      </select>
+    </td>
+    <td class="pr-2">
+      Items per page
+    </td>
+    <td class="pr-2">
+      <pagination class="mt-3" [totalItems]="pagedData.count" [itemsPerPage]="pagedData.pageSize"
+        [(ngModel)]="pagedData.pageIndex" (pageChanged)="pageIndexChanged($event)"></pagination>
+    </td>
+    <td>
+        {{pagedData.count || 0}} results
+    </td>
+  </tr>
+</table>

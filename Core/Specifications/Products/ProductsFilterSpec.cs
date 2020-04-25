@@ -45,6 +45,9 @@ namespace Core.Specifications.Products
 
             switch (productParams.Sort)
             {
+                case "namedesc":
+                    AddOrderByDescending(x => x.Name);
+                    break;
                 case "priceasc":
                     AddOrderBy(x => x.Price);
                     break;

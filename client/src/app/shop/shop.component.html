@@ -1,0 +1,53 @@
+<form #form="ngForm" (ngSubmit)="loadProducts()" novalidate>
+    <div class="row">
+        <div class="col-2">
+            <select class="form-control" name="typeId" [(ngModel)]="productsFilter.typeId"
+                (ngModelChange)="loadProducts()">
+                <option [ngValue]=undefined selected>Type...</option>
+                <option *ngFor="let type of productTypes" [ngValue]="type.id">
+                    {{type.name}}
+                </option>
+            </select>
+        </div>
+        <div class="col-2">
+            <select class="form-control" name="brandId" [(ngModel)]="productsFilter.brandId"
+                (ngModelChange)="loadProducts()">
+                <option [ngValue]=undefined selected>Brand...</option>
+                <option *ngFor="let brand of productBrands" [ngValue]="brand.id">
+                    {{brand.name}}
+                </option>
+            </select>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" name="nameSearch" [(ngModel)]="productsFilter.nameSearch"
+                placeholder="Product Name..." autocomplete="off">
+        </div>
+        <div class="col-2">
+            <select class="form-control" name="sort" [(ngModel)]="productsFilter.sort" (change)="loadProducts()">
+                <option *ngFor="let sort of sortOptions" [value]="sort.value">
+                    {{sort.display}}
+                </option>
+            </select>
+        </div>
+        <div class="col-2 text-right">
+            <button type="button" class="btn btn-primary mr-2" (click)="resetFilters()"><i
+                    class="fa fa-eraser"></i></button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+</form>
+
+<app-data-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" (changed)="loadProducts()"></app-data-pager>
+
+<table class="table table-hover">
+    <tbody>
+        <tr *ngFor="let product of pagedProducts.data" (click)="productSelect(product)">
+            <td width="1%">
+                <img src="{{product.pictureUrl}}" style="max-height: 100px;">
+            </td>
+            <td>
+                {{product.name}}
+            </td>
+        </tr>
+    </tbody>
+</table>

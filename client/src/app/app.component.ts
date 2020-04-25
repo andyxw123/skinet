@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { IProduct } from './interfaces/iproduct';
-import { IPagination } from './interfaces/ipagination';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +7,10 @@ import { IPagination } from './interfaces/ipagination';
 })
 export class AppComponent implements OnInit {
   title = 'SkiNet';
-  pagedProducts: IPagination<IProduct>;
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.http.get('https://localhost:5001/api/products').subscribe((response: IPagination<IProduct>) => {
-      this.pagedProducts = response;
-    }, error => {
-
-    });
   }
 }
 
