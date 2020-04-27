@@ -1,0 +1,30 @@
+<div class="d-flex align-items-center mr-2">
+  <div class="mr-auto">
+    <pagination class="pt-3" [boundaryLinks]=true [totalItems]="pagedData.count" [itemsPerPage]="pagedData.pageSize"
+      [(ngModel)]="pagedData.pageIndex" (pageChanged)="onPageIndexChanged($event)" previousText="&lsaquo;"
+      nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+  </div>
+  <div class="d-flex align-items-center" *ngIf="!config?.pagerOnly">
+    <div class="ml-2" *ngIf="config?.showCount">
+      <strong>{{pagedData.count || 0}}</strong> results
+    </div>
+    <div class="mx-2">
+      <select class="form-control" name="pageSize" [(ngModel)]="pagingParams.pageSize" (change)="onChanged($event)">
+        <option *ngFor="let pageSize of itemsPerPageOptions(this.config?.defaultPageSize)">
+          {{pageSize}}
+        </option>
+      </select>
+    </div>
+    <div>
+      per page
+    </div>
+    <div *ngIf="sortOptions.length">
+      <select class="form-control ml-2" name="sort" [(ngModel)]="pagingParams.sort" (change)="onChanged($event)">
+        <option *ngFor="let sort of sortOptions" [value]="sort.value">
+          {{sort.display}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+</div>

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
+using API.Extensions;
 using AutoMapper;
 using Core.Classes;
 using Core.Entities;
@@ -31,13 +32,15 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductForReturnDto>>> GetProducts([FromQuery] ProductsFilterParams productParams)
+        public async Task<ActionResult<ProductForReturnDto[]>> GetProducts([FromQuery] ProductsFilterParams productParams)
         {
             var spec = new ProductsFilterSpec(productParams);
 
-            var productsForReturn = await _productRepo.GetEntitiesPaged<ProductForReturnDto>(spec, productParams, (products) => _mapper.Map<ProductForReturnDto[]>(products));
+            var productsForReturnPaged = await _productRepo.GetEntitiesPaged<ProductForReturnDto>(spec, productParams, (products) => _mapper.Map<ProductForReturnDto[]>(products));
 
-            return productsForReturn;
+            Response.AddPaginationHeader(productsForReturnPaged);
+
+            return productsForReturnPaged.Data;
         }
 
         [HttpGet("{id}")]

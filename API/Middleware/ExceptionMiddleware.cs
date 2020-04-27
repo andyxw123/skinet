@@ -3,6 +3,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Errors;
+using API.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -41,11 +42,7 @@ namespace API.Middleware
                     response.Details = ex.StackTrace;
                 }
 
-                var jsonOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
-                var json = JsonSerializer.Serialize(response, jsonOptions);
-
-                await httpContext.Response.WriteAsync(json);
+                await httpContext.Response.WriteAsync(response.ToJson());
             }
         }
     }

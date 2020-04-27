@@ -1,53 +1,62 @@
-<form #form="ngForm" (ngSubmit)="loadProducts()" novalidate>
-    <div class="row">
-        <div class="col-2">
-            <select class="form-control" name="typeId" [(ngModel)]="productsFilter.typeId"
-                (ngModelChange)="loadProducts()">
-                <option [ngValue]=undefined selected>Type...</option>
-                <option *ngFor="let type of productTypes" [ngValue]="type.id">
-                    {{type.name}}
-                </option>
-            </select>
-        </div>
-        <div class="col-2">
-            <select class="form-control" name="brandId" [(ngModel)]="productsFilter.brandId"
-                (ngModelChange)="loadProducts()">
-                <option [ngValue]=undefined selected>Brand...</option>
-                <option *ngFor="let brand of productBrands" [ngValue]="brand.id">
-                    {{brand.name}}
-                </option>
-            </select>
-        </div>
-        <div class="col">
-            <input type="text" class="form-control" name="nameSearch" [(ngModel)]="productsFilter.nameSearch"
-                placeholder="Product Name..." autocomplete="off">
-        </div>
-        <div class="col-2">
-            <select class="form-control" name="sort" [(ngModel)]="productsFilter.sort" (change)="loadProducts()">
-                <option *ngFor="let sort of sortOptions" [value]="sort.value">
-                    {{sort.display}}
-                </option>
-            </select>
-        </div>
-        <div class="col-2 text-right">
-            <button type="button" class="btn btn-primary mr-2" (click)="resetFilters()"><i
-                    class="fa fa-eraser"></i></button>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-        </div>
-    </div>
-</form>
+<div class="row">
+    <section class="col-3">
+        <h5 class="mb-2">Categories</h5>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let type of productTypes" (click)="onProductTypeSelected(type.id)"
+                [class.active]="type.id === productsFilter.typeId" [value]="type.id">
+                {{type.name}}
+            </li>
+        </ul>
 
-<app-data-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" (changed)="loadProducts()"></app-data-pager>
+        <h5 class="my-2">Brands</h5>
+        <select class="form-control" name="brandId" [(ngModel)]="productsFilter.brandId" (change)="getProducts()">
+            <option [value]=undefined selected>All</option>
+            <option *ngFor="let brand of productBrands" [value]="brand.id">
+                {{brand.name}}
+            </option>
+        </select>
+    </section>
 
-<table class="table table-hover">
-    <tbody>
-        <tr *ngFor="let product of pagedProducts.data" (click)="productSelect(product)">
-            <td width="1%">
-                <img src="{{product.pictureUrl}}" style="max-height: 100px;">
-            </td>
-            <td>
-                {{product.name}}
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <section class="col-9">
+        <form id="productFiltersForm" #form="ngForm" (ngSubmit)="getProducts()" novalidate>
+            <div class="d-flex align-items-center">
+
+                <div class="input-group">
+                    <input form="productFiltersForm" type="text" class="form-control" name="nameSearch"
+                        [(ngModel)]="productsFilter.nameSearch" placeholder="Search" autocomplete="off">
+
+                    <div class="input-group-append">
+                        <button form="productFiltersForm" class="btn btn-primary" type="submit"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-secondary ml-2" type="button" (click)="resetFilters()">Reset</button>
+            </div>
+        </form>
+
+        <app-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" [sortOptions]="sortOptions"
+            (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">
+        </app-pager>
+
+        <hr>
+        <app-pager-text [pagedData]="pagedProducts"></app-pager-text>
+
+        <div class="row">
+            <div class="col-4 mb-4" *ngFor="let product of pagedProducts.data">
+                <app-product-item [product]="product"></app-product-item>
+            </div>
+        </div>
+
+        <!-- TODO: Fix - If there are 2 instances of the pager getProducts() is called twice when clicking a page number 
+                   (this handler is needed if the page size & sort options are displayed otherwise the data won't refresh).
+                   Stangely changing the page size and sorting doesn't call getProducts() twice
+        -->
+        <div *ngIf="pagedProducts.count > pagedProducts.pageSize">
+            <hr>
+            <app-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" [sortOptions]="sortOptions"
+            (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">
+            </app-pager>
+        </div>
+    </section>
+</div>

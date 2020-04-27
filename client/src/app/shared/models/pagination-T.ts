@@ -1,4 +1,4 @@
-import { IPagination } from '../interfaces/i-pagination';
+import { IPagination } from './i-pagination-T';
 
 export class Pagination<T> implements IPagination<T> {
     count: number;

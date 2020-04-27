@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { IPagination } from '../shared/interfaces/i-pagination';
-import { IProduct } from '../shared/interfaces/i-product';
+import { IPagination } from '../shared/models/i-pagination-T';
+import { IProduct } from '../shared/models/i-product';
 import { environment } from 'src/environments/environment';
-import { ProductFilters } from './classes/product-filters';
-import { PaginationParams } from '../shared/classes/pagination-params';
-import { IPaginationParams } from '../shared/interfaces/i-pagination-params';
-import { INamedItem } from '../shared/interfaces/i-named-item';
+import { ProductFilters } from './models/product-filters';
+import { IPaginationParams } from '../shared/models/i-pagination-params';
+import { INamedItem } from '../shared/models/i-named-item';
+import { map } from 'rxjs/operators';
+import { Pagination } from '../shared/models/pagination-T';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,10 @@ export class ShopService {
         params = params.append('pageIndex', paging.pageIndex.toString());
         params = params.append('pageSize', paging.pageSize.toString());
       }
+
+      if (paging.sort) {
+        params = params.append('sort', paging.sort);
+      }
     }
 
     if (filters) {
@@ -38,15 +43,26 @@ export class ShopService {
       if (filters.nameSearch) {
         params = params.append('nameSearch', filters.nameSearch);
       }
-
-      if (filters.sort) {
-        params = params.append('sort', filters.sort);
-      }
     }
 
-    return this.http.get<IPagination<IProduct>>(this.baseUrl + 'products', {
-      params,
-    });
+    return this.http
+      .get<IProduct[]>(this.baseUrl + 'products', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          const paginatedResult = new Pagination<IProduct>();
+          paginatedResult.data = response.body;
+
+          Object.assign(
+            paginatedResult,
+            JSON.parse(response.headers.get('Pagination') || null)
+          );
+
+          return paginatedResult;
+        })
+      );
   }
 
   getProductTypes() {
