@@ -6,6 +6,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PagerComponent } from './components/pager/pager.component';
 import { PagerTextComponent } from './components/pager-text/pager-text.component';
 
+
+
 @NgModule({
   declarations: [
     PagerComponent,

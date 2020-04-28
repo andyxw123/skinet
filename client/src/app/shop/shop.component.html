@@ -48,11 +48,7 @@
             </div>
         </div>
 
-        <!-- TODO: Fix - If there are 2 instances of the pager getProducts() is called twice when clicking a page number 
-                   (this handler is needed if the page size & sort options are displayed otherwise the data won't refresh).
-                   Stangely changing the page size and sorting doesn't call getProducts() twice
-        -->
-        <div *ngIf="pagedProducts.count > pagedProducts.pageSize">
+        <div *ngIf="pagedProducts.count">
             <hr>
             <app-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" [sortOptions]="sortOptions"
             (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">

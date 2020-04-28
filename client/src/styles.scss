@@ -1,1 +1,11 @@
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
+
+.cursor-pointer, [routerLink] {
+    cursor: pointer;
+}
+
+img {
+    &:focus {
+        outline: none;
+    }
+}
