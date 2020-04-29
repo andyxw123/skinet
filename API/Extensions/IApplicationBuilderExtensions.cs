@@ -15,7 +15,7 @@ namespace API.Extensions
 
         public static IApplicationBuilder UseErrorController(this IApplicationBuilder app)
         {
-            // ERROR HANDLING: Add redirection to an error controller to standardise the response if the enpoint is not found
+            // ERROR HANDLING: Add redirection to an error controller to standardise the response if the endpoint is not found
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             return app;

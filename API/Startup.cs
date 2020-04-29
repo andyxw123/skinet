@@ -41,10 +41,17 @@ namespace API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseRouting();
+            //NOTE: Ordering of the HTTP pipeline is important
 
             // Use the CORS policy configured in Services
             app.UseCors("CorsPolicy");
+
+            // ../Extensions/IApplicationBuilderExtensions.cs
+            app.UseErrorController()
+                .UseExceptionMiddleware()
+                .UseSwaggerDocumentation();
+
+            app.UseRouting();
 
             app.UseAuthorization();
 
@@ -63,11 +70,6 @@ namespace API
 
             // Enable serving of static files
             app.UseStaticFiles();
-
-            // ../Extensions/IApplicationBuilderExtensions.cs
-            app.UseExceptionMiddleware()
-                .UseErrorController()
-                .UseSwaggerDocumentation();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Text;
 using API.Errors;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,11 @@ namespace API.Controllers
         [HttpGet("servererror")]
         public IActionResult GetServerError()
         {
-            throw new Exception("Error");
+            // Simulate a null reference exception
+            StringBuilder builder = null;
+            string result = builder.ToString();
+
+            return Ok(result);
         }
 
         [HttpGet("badrequest")]
@@ -30,6 +35,9 @@ namespace API.Controllers
         [HttpGet("badrequest/{id}")]
         public IActionResult GetNotFoundRequest(int id)
         {
+            // If an attempt is made to call this controller with an id value as a string,
+            // then the response will include an  ApiValidationErrorResponse object containing
+            // an array of validation errors (such as "The value 'blah' is not valid")
             return Ok();
         }
     }

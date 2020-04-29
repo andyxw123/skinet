@@ -18,9 +18,9 @@ namespace API.Errors
             this.Message = message ?? GetDefaultForStatusCode(statusCode);
         }
 
-        public int StatusCode { get; set; }
-
         public string Message { get; set; }
+
+        public int StatusCode { get; set; }
 
         private string GetDefaultForStatusCode(int statusCode)
         {
