@@ -16,9 +16,9 @@ import { List } from 'linqts';
 export class ShopComponent implements OnInit {
   productsFilter =  new ProductFilters();
   pagingParams = new PaginationParams();
-  pagedProducts = new Pagination<IProduct>();
-  productTypes: INamedItem[] = [];
-  productBrands: INamedItem[] = [];
+  pagedProducts: Pagination<IProduct>;
+  productTypes: INamedItem[];
+  productBrands: INamedItem[];
   defaultPageSize = 6;
 
   sortOptions: ISortOption[] = [

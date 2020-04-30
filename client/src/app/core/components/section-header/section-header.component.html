@@ -1,0 +1,18 @@
+<ng-container *ngIf="(breadcrumbs$ | async) as breadcrumbs">
+    <ng-container *ngIf="breadcrumbs.length as crumbsLength">
+            <ng-container *ngIf="breadcrumbs[crumbsLength - 1] as lastCrumb">
+                {{ getBreadcrumbFromView(lastCrumb, crumbsLength - 1)}}
+                <div *ngIf="crumbsLength > 1"
+                    class="d-flex align-items-center bg-light py-2">
+                    <div class="mr-auto">
+                        <h4 class="px-4" style="margin: 0;">
+                            {{ lastCrumb.label | titlecase}}
+                        </h4>
+                    </div>
+                    <div style="padding-right: 40px;">
+                        <xng-breadcrumb></xng-breadcrumb>
+                    </div>
+                </div>
+        </ng-container>
+    </ng-container>
+</ng-container>

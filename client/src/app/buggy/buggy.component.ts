@@ -58,6 +58,8 @@ export class BuggyComponent implements OnInit {
       (error) => {
         this.validationError = error;
         console.log(error);
+
+        setTimeout(() => this.validationError = null, 3000);
       }
     );
   }

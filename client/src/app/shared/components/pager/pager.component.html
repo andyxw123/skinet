@@ -1,6 +1,6 @@
-<div class="d-flex align-items-center mr-2">
+<div class="d-flex align-items-center mr-2 my-2">
   <div class="mr-auto">
-    <pagination class="pt-3" [boundaryLinks]=true [totalItems]="pagedData.count" [itemsPerPage]="pagedData.pageSize"
+    <pagination [boundaryLinks]=true [totalItems]="pagedData.count" [itemsPerPage]="pagedData.pageSize"
       [(ngModel)]="pagedData.pageIndex" (pageChanged)="onPageIndexChanged($event)" previousText="&lsaquo;"
       nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
   </div>

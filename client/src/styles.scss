@@ -2,8 +2,13 @@
     cursor: pointer;
 }
 
-hr, ul {
+hr, ul, 
+.breadcrumb, .xng-breadcrumb-trail {
     margin: 0;
+}
+
+label.xng-breadcrumb-trail {
+    font-weight: bold;
 }
 
 img {
@@ -11,3 +16,15 @@ img {
         outline: none;
     }
 }
+
+.container {
+    margin-top: 25px;
+}
+
+.container-break-out {
+    margin-top: -25px;
+    width: 100vw;
+    position: relative;
+    left: calc(-1 * (100vw - 100%) / 2);
+}
+

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
+  isDevMode = false;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.isDevMode = isDevMode();
   }
 
 }

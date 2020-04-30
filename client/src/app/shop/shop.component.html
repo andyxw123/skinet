@@ -1,58 +1,62 @@
 <div class="row">
     <section class="col-3">
-        <h5 class="mb-2">Categories</h5>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let type of productTypes" (click)="onProductTypeSelected(type.id)"
-                [class.active]="type.id === productsFilter.typeId" [value]="type.id">
-                {{type.name}}
-            </li>
-        </ul>
+        <ng-container *ngIf="productTypes && productBrands">
+            <h5 class="mt-2" style="margin-bottom: 15px">Categories</h5>
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let type of productTypes" (click)="onProductTypeSelected(type.id)"
+                    [class.active]="type.id === productsFilter.typeId" [value]="type.id">
+                    {{type.name}}
+                </li>
+            </ul>
 
-        <h5 class="my-2">Brands</h5>
-        <select class="form-control" name="brandId" [(ngModel)]="productsFilter.brandId" (change)="getProducts()">
-            <option [value]=undefined selected>All</option>
-            <option *ngFor="let brand of productBrands" [value]="brand.id">
-                {{brand.name}}
-            </option>
-        </select>
+            <h5 class="my-3">Brands</h5>
+            <select class="form-control" name="brandId" [(ngModel)]="productsFilter.brandId" (change)="getProducts()">
+                <option [value]=undefined selected>All</option>
+                <option *ngFor="let brand of productBrands" [value]="brand.id">
+                    {{brand.name}}
+                </option>
+            </select>
+        </ng-container>
     </section>
 
     <section class="col-9">
-        <form id="productFiltersForm" #form="ngForm" (ngSubmit)="getProducts()" novalidate>
-            <div class="d-flex align-items-center">
+        <ng-container *ngIf="pagedProducts?.data">
+            <form id="productFiltersForm" #form="ngForm" (ngSubmit)="getProducts()" novalidate>
+                <div class="d-flex align-items-center">
 
-                <div class="input-group">
-                    <input form="productFiltersForm" type="text" class="form-control" name="nameSearch"
-                        [(ngModel)]="productsFilter.nameSearch" placeholder="Search" autocomplete="off">
+                    <div class="input-group">
+                        <input form="productFiltersForm" type="text" class="form-control" name="nameSearch"
+                            [(ngModel)]="productsFilter.nameSearch" placeholder="Search" autocomplete="off">
 
-                    <div class="input-group-append">
-                        <button form="productFiltersForm" class="btn btn-primary" type="submit"><i
-                                class="fa fa-search"></i></button>
+                        <div class="input-group-append">
+                            <button form="productFiltersForm" class="btn btn-primary" type="submit"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
                     </div>
+
+                    <button class="btn btn-outline-secondary ml-2" type="button" (click)="resetFilters()">Reset</button>
                 </div>
+            </form>
 
-                <button class="btn btn-outline-secondary ml-2" type="button" (click)="resetFilters()">Reset</button>
-            </div>
-        </form>
-
-        <app-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" [sortOptions]="sortOptions"
-            (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">
-        </app-pager>
-
-        <hr>
-        <app-pager-text [pagedData]="pagedProducts"></app-pager-text>
-
-        <div class="row">
-            <div class="col-4 mb-4" *ngFor="let product of pagedProducts.data">
-                <app-product-item [product]="product"></app-product-item>
-            </div>
-        </div>
-
-        <div *ngIf="pagedProducts.count">
-            <hr>
             <app-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" [sortOptions]="sortOptions"
-            (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">
+                (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">
             </app-pager>
-        </div>
+
+            <hr>
+            <app-pager-header [pagedData]="pagedProducts"></app-pager-header>
+
+            <div class="row">
+                <div class="col-4 mb-4" *ngFor="let product of pagedProducts.data">
+                    <app-product-item [product]="product"></app-product-item>
+                </div>
+            </div>
+
+            <div *ngIf="pagedProducts.count">
+                <hr>
+                <app-pager [pagedData]="pagedProducts" [pagingParams]="pagingParams" [sortOptions]="sortOptions"
+                    (changed)="getProducts(false)" [config]="{ defaultPageSize: defaultPageSize }">
+                </app-pager>
+            </div>
+        </ng-container>
     </section>
 </div>

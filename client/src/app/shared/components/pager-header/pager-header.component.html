@@ -1,6 +1,6 @@
-<div class="my-2">
+<div class="my-2"*ngIf="pagedData">
     <div *ngIf="!pagedData.count">
-        No results
+        <strong>No results</strong>
     </div>
     <div *ngIf="pagedData.count > 0">
         <span>Items</span>

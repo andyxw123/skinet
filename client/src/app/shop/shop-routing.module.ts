@@ -5,16 +5,17 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 
 const routes: Routes = [
   { path: '', component: ShopComponent },
-  { path: ':id', component: ProductDetailsComponent },
+  {
+    path: ':id',
+    component: ProductDetailsComponent,
+    // The breadcrumb alias will be populated by product-details.component.ts
+    data: { breadcrumb: { alias: 'productDetails' } },
+  },
 ];
 
 @NgModule({
   declarations: [],
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class ShopRoutingModule { }
+export class ShopRoutingModule {}

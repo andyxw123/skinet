@@ -1,25 +1,25 @@
 <div *ngIf="apiExceptions.length">
     <div *ngIf="!isDevMode">
-        <h1>
+        <h2>
             Well this is embarrassing...
-        </h1>
+        </h2>
         <h5>
             <p>An error has occurred.</p>
             <p>Please contact support if this problem continues to happen.</p>
         </h5>
     </div>
     <div *ngIf="isDevMode">
-        <h1>
+        <h2>
             Internal Server Error{{apiExceptions.length > 1 ? 's' : ''}}
-        </h1>
+        </h2>
         <div *ngFor="let ex of apiExceptions">
             <hr>
-            <h4 class="text-danger">
+            <h5 class="text-danger">
                 {{ex.message}}
-            </h4>
-            <div style="position: relative;">
+            </h5>
+            <div class="position-relative">
                 <pre class="card card-body bg-light"><br>{{ex.details || 'No stack trace'}}</pre>
-                <button class="btn btn-sm btn-secondary" style="position: absolute; top: 0; right:0;"
+                <button class="btn btn-sm btn-secondary position-absolute" style="top: 0; right:0;"
                     (click)="copyException(ex)">
                     <i class="fa fa-clipboard mr-1"></i>Copy
                 </button>
@@ -29,10 +29,4 @@
 </div>
 <div class="text-center" *ngIf="!apiExceptions.length">
     <h3>Page expired</h3>
-    <a routerLink="/home" skipLocationChange>
-        <i class="fa fa-home fa-2x mr-2"></i> 
-        <h5 class="d-table-cell align-middle">
-            Return to home
-        </h5>
-    </a>
 </div>

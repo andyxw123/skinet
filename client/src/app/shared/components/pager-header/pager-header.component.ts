@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IPagination } from '../../models/i-pagination-T';
 
 @Component({
-  selector: 'app-pager-text',
-  templateUrl: './pager-text.component.html',
-  styleUrls: ['./pager-text.component.scss']
+  selector: 'app-pager-header',
+  templateUrl: './pager-header.component.html',
+  styleUrls: ['./pager-header.component.scss']
 })
-export class PagerTextComponent implements OnInit {
+export class PagerHeaderComponent implements OnInit {
   @Input() pagedData: IPagination<any>;
 
   constructor() { }
