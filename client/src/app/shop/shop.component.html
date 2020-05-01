@@ -1,7 +1,7 @@
 <div class="row">
     <section class="col-3">
         <ng-container *ngIf="productTypes && productBrands">
-            <h5 class="mt-2" style="margin-bottom: 15px">Categories</h5>
+            <h5 class="mt-2 mb-3">Categories</h5>
             <ul class="list-group">
                 <li class="list-group-item" *ngFor="let type of productTypes" (click)="onProductTypeSelected(type.id)"
                     [class.active]="type.id === productsFilter.typeId" [value]="type.id">
