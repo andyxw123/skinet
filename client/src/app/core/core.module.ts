@@ -9,6 +9,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ServerErrorComponent } from './components/server-error/server-error.component';
 import { SharedModule } from '../shared/shared.module';
 import { SectionHeaderComponent } from './components/section-header/section-header.component';
+import { DevHeaderComponent } from './components/dev-header/dev-header.component';
+import { FormsModule } from '@angular/forms';
+import { ThemeSelectorComponent } from './components/theme-selector/theme-selector.component';
 
 // This module need to be added as an import to app.module.ts
 @NgModule({
@@ -16,11 +19,14 @@ import { SectionHeaderComponent } from './components/section-header/section-head
     NavBarComponent,
     NotFoundComponent,
     ServerErrorComponent,
-    SectionHeaderComponent
+    SectionHeaderComponent,
+    DevHeaderComponent,
+    ThemeSelectorComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule,
     RouterModule,
     BreadcrumbModule,
     ToastrModule.forRoot({
@@ -29,8 +35,10 @@ import { SectionHeaderComponent } from './components/section-header/section-head
     })
   ],
   exports: [
+    DevHeaderComponent,
     NavBarComponent,   // Export the NavBar component to allow it to be used elsewhere
-    SectionHeaderComponent
+    SectionHeaderComponent,
+    ThemeSelectorComponent,
   ]
 })
 export class CoreModule { }

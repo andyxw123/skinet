@@ -1,0 +1,6 @@
+<select class="form-control" name="theme" (change)="themeService.loadTheme($event.target.value)"
+    [(ngModel)]="themeService.currentTheme">
+    <option *ngFor="let theme of themeService.themes" [value]="theme">
+        {{theme | titlecase}}
+    </option>
+</select>

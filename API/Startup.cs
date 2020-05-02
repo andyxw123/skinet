@@ -33,6 +33,7 @@ namespace API
             // ../Extensions/IServiceCollectionExtensions.cs
             services.AddApiValidationErrorResponseConfig()
                 .AddDataContexts(_config)
+                .AddRedisConfig(_config)
                 .AppRepositories()
                 .AddAutoMapperProfiles()
                 .AddSwaggerDocumentation();

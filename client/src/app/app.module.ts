@@ -12,6 +12,7 @@ import { HomeModule } from './home/home.module';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { HttpDelayInterceptor } from './core/interceptors/http-delay.interceptor';
 import { HttpBusySpinnerInterceptor } from './core/interceptors/http-busy-spinner-interceptor';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
    declarations: [
@@ -22,6 +23,7 @@ import { HttpBusySpinnerInterceptor } from './core/interceptors/http-busy-spinne
       AppRoutingModule,
       BrowserAnimationsModule,
       HttpClientModule,
+      FormsModule,
       NgxSpinnerModule,
 
       // Child app modules

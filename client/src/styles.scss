@@ -7,6 +7,14 @@ hr, ul,
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+
+    &.active {
+        font-weight: bold;
+    }
+}
+
 label.xng-breadcrumb-trail {
     font-weight: bold;
 }

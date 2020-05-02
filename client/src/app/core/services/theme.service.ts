@@ -1,53 +1,53 @@
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { throwError } from 'rxjs';
 import { BusyService } from './busy.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
+  currentTheme?: string;
+  isLoadingTheme = false;
   themes: string[] = [
     'default',
-    'cerulean',
-    'cosmo',
-    'cyborg',
     'darkly',
-    'flatly',
-    'journal',
-    'litera',
     'lumen',
-    'lux',
-    'materia',
-    'minty',
-    'pulse',
-    'sandstone',
-    'simplex',
     'sketchy',
     'slate',
-    'solar',
-    'spacelab',
     'superhero',
     'united',
-    'yeti',
   ];
 
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private busyService: BusyService
+  ) {
+    this.currentTheme = localStorage.getItem('theme');
+  }
 
   loadTheme(theme?: string) {
-    theme = (theme || '').trim().toLowerCase();
+    theme = (theme || this.currentTheme || '').trim().toLowerCase();
 
     if (this.themes.indexOf(theme) === -1) {
       theme = this.themes[0];
     }
 
-    // Hide the body whilst the theme is being updated
-    document.body.setAttribute('hidden', 'true');
+    const themeCss = `${theme}.css`;
 
     let cssThemeLink = this.document.getElementById('theme') as HTMLLinkElement;
 
+    if (cssThemeLink && cssThemeLink.href === themeCss) {
+      return;
+    }
+
+    this.setIsLoadingTheme(true);
+
+    this.currentTheme = theme;
+    localStorage.setItem('theme', theme);
+
     const docHead = this.document.getElementsByTagName('head')[0];
 
+    // Remove existing theme's css
     if (cssThemeLink) {
       docHead.removeChild(cssThemeLink);
     }
@@ -57,13 +57,19 @@ export class ThemeService {
 
     cssThemeLink.rel = 'stylesheet';
 
-    cssThemeLink.href = `${theme}.css`;
+    cssThemeLink.href = themeCss;
 
-    cssThemeLink.addEventListener('load', () =>
-      document.body.removeAttribute('hidden')
-    );
+    cssThemeLink.addEventListener('load', () => {
+      document.body.removeAttribute('hidden');
+      this.setIsLoadingTheme(false);
+    });
 
     // Prepend to the top of the head node to ensure that it is applied before styles.css
     docHead.prepend(cssThemeLink);
+  }
+
+  setIsLoadingTheme(isLoading: boolean) {
+    this.isLoadingTheme = isLoading;
+    isLoading ? this.busyService.busy() : this.busyService.idle();
   }
 }

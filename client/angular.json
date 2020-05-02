@@ -36,73 +36,13 @@
                 "inject": false
               },              
               {
-                "input": "./node_modules/bootswatch/dist/cerulean/bootstrap.min.css",
-                "bundleName": "cerulean",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/cosmo/bootstrap.min.css",
-                "bundleName": "cosmo",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/cyborg/bootstrap.min.css",
-                "bundleName": "cyborg",
-                "inject": false
-              },
-              {
                 "input": "./node_modules/bootswatch/dist/darkly/bootstrap.min.css",
                 "bundleName": "darkly",
                 "inject": false
               },
               {
-                "input": "./node_modules/bootswatch/dist/flatly/bootstrap.min.css",
-                "bundleName": "flatly",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/journal/bootstrap.min.css",
-                "bundleName": "journal",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/litera/bootstrap.min.css",
-                "bundleName": "litera",
-                "inject": false
-              },
-              {
                 "input": "./node_modules/bootswatch/dist/lumen/bootstrap.min.css",
                 "bundleName": "lumen",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/lux/bootstrap.min.css",
-                "bundleName": "lux",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/materia/bootstrap.min.css",
-                "bundleName": "materia",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/minty/bootstrap.min.css",
-                "bundleName": "minty",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/pulse/bootstrap.min.css",
-                "bundleName": "pulse",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/sandstone/bootstrap.min.css",
-                "bundleName": "sandstone",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/simplex/bootstrap.min.css",
-                "bundleName": "simplex",
                 "inject": false
               },
               {
@@ -116,16 +56,6 @@
                 "inject": false
               },
               {
-                "input": "./node_modules/bootswatch/dist/solar/bootstrap.min.css",
-                "bundleName": "solar",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/spacelab/bootstrap.min.css",
-                "bundleName": "spacelab",
-                "inject": false
-              },
-              {
                 "input": "./node_modules/bootswatch/dist/superhero/bootstrap.min.css",
                 "bundleName": "superhero",
                 "inject": false
@@ -133,11 +63,6 @@
               {
                 "input": "./node_modules/bootswatch/dist/united/bootstrap.min.css",
                 "bundleName": "united",
-                "inject": false
-              },
-              {
-                "input": "./node_modules/bootswatch/dist/yeti/bootstrap.min.css",
-                "bundleName": "yeti",
                 "inject": false
               }
             ],

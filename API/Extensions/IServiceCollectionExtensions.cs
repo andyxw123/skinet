@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace API.Extensions
 {
@@ -32,10 +33,20 @@ namespace API.Extensions
             return services;
         }
 
+        public static IServiceCollection AddRedisConfig(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddSingleton<IConnectionMultiplexer>(c => {
+                var configOptions = ConfigurationOptions.Parse(config.GetConnectionString("Redis"), ignoreUnknown: true);
+                return ConnectionMultiplexer.Connect(configOptions);
+            });
+
+            return services;
+        }
+
         public static IServiceCollection AppRepositories(this IServiceCollection services)
         {
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Note the empty angle brackets as the generic type isn't known yet
-
+            services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
             return services;
         }
 

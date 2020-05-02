@@ -5,10 +5,6 @@
         <a class="p-2" [routerLink]="['/']" routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">Home</a>
         <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
-        <ng-container *ngIf="isDevMode">
-            <!--Development only links-->
-            <a class="p-2" routerLink="/buggy" routerLinkActive="active">Buggy Page</a>
-        </ng-container>
     </nav>
     <div class="d-flex align-items-center">
         <a><i class="fa fa-shopping-cart fa-2x mr-2 text-dark"></i></a>

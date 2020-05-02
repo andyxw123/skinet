@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ThemeService } from './core/services/theme.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ThemeService } from './core/services/theme.service';
 export class AppComponent implements OnInit {
   title = 'SkiNet';
 
-  constructor(private themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) {}
 
   ngOnInit(): void {
     this.themeService.loadTheme();
