@@ -1,38 +1,42 @@
-.cursor-pointer, [routerLink] {
-    cursor: pointer;
+.cursor-pointer,
+[routerLink] {
+  cursor: pointer;
 }
 
-hr, ul, 
-.breadcrumb, .xng-breadcrumb-trail {
-    margin: 0;
+hr, ul,
+h1, h2, h3, h4, h5
+.breadcrumb,
+.xng-breadcrumb-trail {
+  margin: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 
-    &.active {
-        font-weight: bold;
-    }
+  &.active {
+    font-weight: bold;
+  }
 }
 
 label.xng-breadcrumb-trail {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 img {
-    &:focus {
-        outline: none;
-    }
+  outline: none;
 }
 
 .container {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 
 .container-break-out {
-    margin-top: -25px;
-    width: 100vw;
-    position: relative;
-    left: calc(-1 * (100vw - 100%) / 2);
+  margin-top: -25px;
+  width: 100vw;
+  position: relative;
+  left: calc(-1 * (100vw - 100%) / 2);
 }
 
+.table-middle > tbody > tr > td {
+  vertical-align: middle;
+}

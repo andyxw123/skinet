@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from '../shared/models/i-product';
-import { ShopService } from './shop.service';
-import { ProductFilters } from './models/product-filters';
-import { PaginationParams } from '../shared/models/pagination-params';
-import { Pagination } from '../shared/models/pagination-T';
-import { INamedItem } from '../shared/models/i-named-item';
-import { ISortOption } from '../shared/models/i-sort-option';
+import { IProduct } from '../../../shared/models/i-product';
+import { ShopService } from '../../shop.service';
+import { ProductFilters } from '../../models/product-filters';
+import { PaginationParams } from '../../../shared/models/pagination-params';
+import { Pagination } from '../../../shared/models/pagination-T';
+import { INamedItem } from '../../../shared/models/i-named-item';
+import { ISortOption } from '../../../shared/models/i-sort-option';
 import { List } from 'linqts';
 
 @Component({
   selector: 'app-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss'],
+  templateUrl: './product-search.component.html',
+  styleUrls: ['./product-search.component.scss'],
 })
-export class ShopComponent implements OnInit {
+export class ProductSearchComponent implements OnInit {
   productsFilter =  new ProductFilters();
   pagingParams = new PaginationParams();
   pagedProducts: Pagination<IProduct>;
@@ -49,7 +49,7 @@ export class ShopComponent implements OnInit {
     }
 
     this.shopService
-      .getProducts(this.productsFilter, this.pagingParams)
+      .getProducts$(this.productsFilter, this.pagingParams)
       .subscribe(
         (pagedData) => {
           this.pagedProducts = pagedData;
@@ -59,7 +59,7 @@ export class ShopComponent implements OnInit {
   }
 
   getProductTypes() {
-    this.shopService.getProductTypes().subscribe(
+    this.shopService.getProductTypes$().subscribe(
       (data) => {
         data = new List<INamedItem>(data).OrderBy(x => x.name).ToArray();
         this.productTypes = [{ id: undefined, name: 'All'}, ...data];   // ... is a array "spread"
@@ -70,7 +70,7 @@ export class ShopComponent implements OnInit {
   }
 
   getProductBrands() {
-    this.shopService.getProductBrands().subscribe(
+    this.shopService.getProductBrands$().subscribe(
       (data) => {
         this.productBrands = new List<INamedItem>(data).OrderBy(x => x.name).ToArray();
       },

@@ -7,9 +7,14 @@
         <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
     </nav>
     <div class="d-flex align-items-center">
-        <a><i class="fa fa-shopping-cart fa-2x mr-2 text-dark"></i></a>
-        <div class="cart-no badge badge-pill badge-primary mr-2">5</div>
+        <a class="position-relative mr-3" routerLink="/basket">
+            <i class="fa fa-shopping-cart fa-2x mr-2 text-dark"></i>
+            <div *ngIf="(basket$ | async) as basket" class="position-absolute badge badge-pill badge-primary mr-2" style="top:-5px; right:-10px">
+                {{basket.items.length}}
+            </div>
+        </a>
+
         <a class="btn btn-outline-secondary mr-2" href="#">Login</a>
-        <a class="btn btn-outline-secondary mr-3" href="#">Sign up</a>
+        <a class="btn btn-outline-secondary" href="#">Sign up</a>
     </div>
 </div>

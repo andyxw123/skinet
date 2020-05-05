@@ -29,7 +29,7 @@ export class BuggyComponent implements OnInit {
   }
 
   notFoundError() {
-    this.buggyService.getNotFound().subscribe(
+    this.buggyService.getNotFound$().subscribe(
       (r) => {
         console.log(r);
       },
@@ -40,7 +40,7 @@ export class BuggyComponent implements OnInit {
   }
 
   serverError() {
-    this.buggyService.getServerError().subscribe(
+    this.buggyService.getServerError$().subscribe(
       (r) => {
         console.log(r);
       },
@@ -51,7 +51,7 @@ export class BuggyComponent implements OnInit {
   }
 
   badRequestError(id?: number | string) {
-    this.buggyService.getBadRequest(id).subscribe(
+    this.buggyService.getBadRequest$(id).subscribe(
       (r) => {
         console.log(r);
       },

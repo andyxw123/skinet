@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { IPagination } from '../shared/models/i-pagination-T';
 import { IProduct } from '../shared/models/i-product';
 import { environment } from 'src/environments/environment';
 import { ProductFilters } from './models/product-filters';
@@ -17,7 +16,7 @@ export class ShopService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(filters?: ProductFilters, paging?: IPaginationParams) {
+  getProducts$(filters?: ProductFilters, paging?: IPaginationParams) {
     let params = new HttpParams();
 
     if (paging) {
@@ -65,15 +64,15 @@ export class ShopService {
       );
   }
 
-  getProduct(id: number) {
+  getProduct$(id: number) {
     return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
 
-  getProductTypes() {
+  getProductTypes$() {
     return this.http.get<INamedItem[]>(this.baseUrl + 'products/types');
   }
 
-  getProductBrands() {
+  getProductBrands$() {
     return this.http.get<INamedItem[]>(this.baseUrl + 'products/brands');
   }
 }

@@ -8,12 +8,14 @@ import { PagerComponent } from './components/pager/pager.component';
 import { PagerHeaderComponent } from './components/pager-header/pager-header.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ErrorSummaryComponent } from './components/error-summary/error-summary.component';
+import { BasketSummaryComponent } from './components/basket-summary/basket-summary.component';
 
 @NgModule({
   declarations: [
     PagerComponent,
     PagerHeaderComponent,
     ErrorSummaryComponent,
+    BasketSummaryComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { ErrorSummaryComponent } from './components/error-summary/error-summary.
     PagerHeaderComponent,
     ClipboardModule,
     CarouselModule,
-    ErrorSummaryComponent
+    ErrorSummaryComponent,
+    BasketSummaryComponent
   ]
 })
 export class SharedModule { }

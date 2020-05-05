@@ -28,6 +28,18 @@ const routes: Routes = [
     data: { breadcrumb: 'Shop' },
   },
   {
+    path: 'basket',
+    loadChildren: () =>
+      import('./basket/basket.module').then((mod) => mod.BasketModule),
+      data: { breadcrumb: 'Basket' },
+  },
+  {
+    path: 'checkout',
+    loadChildren: () =>
+      import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
+      data: { breadcrumb: 'Checkout' },
+  },
+  {
     path: 'buggy',
     loadChildren: () =>
       import('./buggy/buggy.module').then((mod) => mod.BuggyModule),

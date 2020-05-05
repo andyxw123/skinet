@@ -1,0 +1,28 @@
+<ng-container *ngIf="(basketSummary$ | async) as basketSummary">
+    <table class="table text-nowrap" style="margin: 0">
+        <tr *ngIf="!isShippingTBC">
+            <td>
+                <b>Cart Total</b>
+            </td>
+            <td class="text-right">
+                <b>{{ basketSummary.subtotal | currency }}</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Shipping
+            </td>
+            <td class="text-right font-weight-bold" [class.text-info]="isShippingTBC">
+                {{ isShippingTBC ? 'TBC' : basketSummary.shipping | currency }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h3>Total</h3>
+            </td>
+            <td class="text-right w-100">
+                <h3 class="ml-2">{{ basketSummary.total | currency }}</h3>
+            </td>
+        </tr>
+    </table>
+</ng-container>

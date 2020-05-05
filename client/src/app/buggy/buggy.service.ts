@@ -11,15 +11,15 @@ export class BuggyService {
 
   constructor(private http: HttpClient) { }
 
-  getNotFound() {
+  getNotFound$() {
     return this.http.get(this.baseUrl + 'notfound');
   }
 
-  getServerError() {
+  getServerError$() {
     return this.http.get(this.baseUrl + 'servererror');
   }
 
-  getBadRequest(id?: number | string) {
+  getBadRequest$(id?: number | string) {
     // If the id is a string, the ApiResponse object will contain an array of validation errors
     // including an item saying "The value 'blah' is not valid"
     return this.http.get(this.baseUrl + 'badrequest/' + (id || ''));
