@@ -11,6 +11,30 @@ namespace API.Extensions
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "SkiNet API", Version = "v1" });
+
+                // Make Swagger aware of the Authorization requirement of a JWT token
+                // (the Swagger page will includes an "Authorize" button to allow you to login with a valid Bearer token)
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Description = "JWT Auth Bearer Scheme",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                };
+
+                options.AddSecurityDefinition("Bearer", securitySchema);
+
+                var securityRequirement = new OpenApiSecurityRequirement { 
+                    { securitySchema, new[] { "Bearer"}}
+                };
+
+                options.AddSecurityRequirement(securityRequirement);
             });
 
             return services;

@@ -1,6 +1,7 @@
 using API.Dtos;
 using AutoMapper;
 using Core.Entities;
+using Core.Entities.Cache;
 using Core.Entities.Identity;
 
 namespace API.Helpers
@@ -20,6 +21,9 @@ namespace API.Helpers
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email ));
 
             CreateMap<AppUserAddress, AddressDto>().ReverseMap();
+
+            CreateMap<CustomerBasket, BasketDto>().ReverseMap();
+            CreateMap<BasketItem, BasketItemDto>().ReverseMap();
         }
     }
 }

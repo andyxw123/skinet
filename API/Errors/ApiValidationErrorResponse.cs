@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Errors
 {
@@ -10,5 +11,10 @@ namespace API.Errors
         }
 
         public IEnumerable<string> Errors { get; set; }
+
+        public static BadRequestObjectResult BadRequest(params string[] errors)
+        {
+            return new BadRequestObjectResult(new ApiValidationErrorResponse { Errors = errors });
+        }
     }
 }

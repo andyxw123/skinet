@@ -95,8 +95,13 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Login(RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
+            if (CheckIfEmailExists(registerDto.Email).Result.Value)
+            {
+                return ApiValidationErrorResponse.BadRequest("Email address is in use");
+            }
+
             var user = _mapper.Map<AppUser>(registerDto);
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
