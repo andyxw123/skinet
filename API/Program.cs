@@ -22,9 +22,19 @@ namespace API
                 var services = scope.ServiceProvider;
                 var environment = services.GetService<IWebHostEnvironment>();
                 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+                var logger = loggerFactory.CreateLogger<Program>();
 
                 // ../Extensions/IServiceProviderExtensions.cs
-                await services.MigrateDatabaseAndSeedData(loggerFactory, isSeedingData: environment.IsDevelopment());
+                try
+                {
+                    await services.MigrateAppIdentityDbContextAndSeedData(isSeedingData: environment.IsDevelopment());
+                    await services.MigrateStoreContexteAndSeedData(isSeedingData: environment.IsDevelopment());
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occured during IdentityContext migration");
+                }
+
             }
 
             host.Run();

@@ -1,5 +1,7 @@
 using API.Extensions;
 using API.Middleware;
+using Core.Interfaces;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +34,7 @@ namespace API
 
             // ../Extensions/IServiceCollectionExtensions.cs
             services.AddApiValidationErrorResponseConfig()
+                .AddIdentityServices(_config)
                 .AddDataContexts(_config)
                 .AddRedisConfig(_config)
                 .AppRepositories()
@@ -54,6 +57,8 @@ namespace API
 
             app.UseRouting();
 
+            // UseAuthentication MUST be before UseAuthorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
