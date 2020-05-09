@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CookieService } from 'ngx-cookie-service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { RouteReuseStrategy, Scroll, Router } from '@angular/router';
 import { AppRouteReuseStrategy } from './app-route-reuse-strategy';
 import { ViewportScroller } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,9 +36,11 @@ import { filter } from 'rxjs/operators';
     HomeModule,
   ],
   providers: [
+    CookieService,
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
 
     // Add to Angular's HTTP interceptors array - multi must be true
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Add the Authorization header token
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, // Intercept HTTP requests and redirect to error pages
     {
       provide: HTTP_INTERCEPTORS,

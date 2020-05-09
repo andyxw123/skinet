@@ -9,6 +9,8 @@ import { IApiValidationError } from '../../models/i-api-validation-error';
 export class ErrorSummaryComponent implements OnInit {
   @Input() messages: string[];
   @Input() validationError: IApiValidationError;
+  @Input() class: string;
+  @Input() showIcon: false;
   errorMessages: string[];
 
   constructor() {}

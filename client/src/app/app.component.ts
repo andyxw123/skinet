@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from './core/services/theme.service';
 import { BasketService } from './basket/basket.service';
+import { AccountService } from './account/account.service';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,14 @@ import { BasketService } from './basket/basket.service';
 export class AppComponent implements OnInit {
   title = 'SkiNet';
 
-  constructor(public themeService: ThemeService, private basketService: BasketService) {}
+  constructor(public themeService: ThemeService, private basketService: BasketService, private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.themeService.loadTheme();
 
     this.basketService.initBasket();
+
+    this.accountService.initUserLogIn();
   }
 }
 

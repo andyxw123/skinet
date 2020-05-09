@@ -30,12 +30,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           switch (error.status) {
             case 400:
             case 401:
-              if (apiError.errors) {
-                // The apiError contains an array of errors - throw them onto the component to display
+                // Throw the errors onto the component to display
                 throw apiError;
-              }
-              this.toast.error(apiError.message);
-              break;
             case 404:
               this.router.navigateByUrl('/not-found');
               break;

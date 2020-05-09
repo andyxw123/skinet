@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ServerErrorComponent } from './core/components/server-error/server-error.component';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
-import { DevEnvGuard } from './_guards/dev-env.guard';
+import { DevEnvGuard } from './core/guards/dev-env.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -12,14 +13,20 @@ const routes: Routes = [
     data: { breadcrumb: 'Home' },
   },
   {
+    path: 'not-found',
+    component: NotFoundComponent,
+    data: { breadcrumb: 'Not Found' },
+  },
+    {
     path: 'server-error',
     component: ServerErrorComponent,
     data: { breadcrumb: 'Error' }, // <xng-breadcrumb> uses data.breadcrumb to display the location name
   },
   {
-    path: 'not-found',
-    component: NotFoundComponent,
-    data: { breadcrumb: 'Not Found' },
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then((mod) => mod.AccountModule),
+    data: { breadcrumb: { skip: true } },
   },
   {
     path: 'shop',
@@ -38,13 +45,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./checkout/checkout.module').then((mod) => mod.CheckoutModule),
       data: { breadcrumb: 'Checkout' },
+      canActivate: [AuthGuard]
   },
   {
     path: 'buggy',
     loadChildren: () =>
       import('./buggy/buggy.module').then((mod) => mod.BuggyModule),
-    canLoad: [DevEnvGuard], // Prevent navigation to this route in the prod environment
     data: { breadcrumb: 'Buggy Page' },
+    canLoad: [DevEnvGuard], // Prevent navigation to this route in the prod environment
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

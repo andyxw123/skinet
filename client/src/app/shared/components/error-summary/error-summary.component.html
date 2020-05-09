@@ -1,6 +1,7 @@
-<div class="alert alert-danger" *ngIf="getErrorMessages().length">
-    <ul>
+<div class="{{class}}" *ngIf="getErrorMessages().length">
+    <ul class="text-danger list-unstyled">
         <li *ngFor="let error of errorMessages">
+            <i *ngIf="showIcon" class="fa fa-exclamation-circle"></i>
             {{error}}
         </li>
     </ul>

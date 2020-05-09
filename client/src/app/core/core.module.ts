@@ -21,7 +21,7 @@ import { ThemeSelectorComponent } from './components/theme-selector/theme-select
     ServerErrorComponent,
     SectionHeaderComponent,
     DevHeaderComponent,
-    ThemeSelectorComponent
+    ThemeSelectorComponent,
   ],
   imports: [
     CommonModule,

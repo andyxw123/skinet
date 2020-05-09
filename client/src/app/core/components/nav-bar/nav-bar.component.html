@@ -9,12 +9,37 @@
     <div class="d-flex align-items-center">
         <a class="position-relative mr-3" routerLink="/basket">
             <i class="fa fa-shopping-cart fa-2x mr-2 text-dark"></i>
-            <div *ngIf="(basket$ | async) as basket" class="position-absolute badge badge-pill badge-primary mr-2" style="top:-5px; right:-10px">
+            <div *ngIf="(basket$ | async) as basket" class="position-absolute badge badge-pill badge-primary mr-2"
+                style="top:-5px; right:-10px">
                 {{basket.items.length}}
             </div>
         </a>
 
-        <a class="btn btn-outline-secondary mr-2" href="#">Login</a>
-        <a class="btn btn-outline-secondary" href="#">Sign up</a>
+        <ng-container *ngIf="((currentUser$ | async) || {}) as user">
+            <ng-container *ngIf="!user.token">
+                <a class="btn btn-outline-secondary mr-2" routerLink="/account/login">Login</a>
+                <a class="btn btn-outline-secondary" routerLink="/account/register">Sign up</a>
+            </ng-container>
+            <ng-container *ngIf="user.token">
+                <div class="dropdown ml-3 mr-5" dropdown>
+                    <a class="dropdown-toggle cursor-pointer" dropdownToggle>
+                        <i class="fa fa-user-o mr-1"></i>
+                        {{user.displayName}}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right cursor-pointer" *dropdownMenu>
+                        <a routerLink="/basket" class="dropdown-item d-flex align-items-center py-2">
+                            <i class="fa fa-shopping-cart mr-3"></i>View Basket
+                        </a>
+                        <a  routerLink="/orders" class="dropdown-item d-flex align-items-center py-2">
+                            <i class="fa fa-history mr-3"></i>View Orders
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item d-flex align-items-center py-2" (click)="logout()">
+                            <i class="fa fa-sign-out mr-3"></i>Logout
+                        </a>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
     </div>
 </div>
