@@ -7,21 +7,27 @@ using Core.Specifications;
 
 namespace Core.Interfaces
 {
-    public interface IGenericRepository<T>
-        where T : BaseEntity
+    public interface IGenericRepository<TEntity>
+        where TEntity : BaseEntity
     {
-         Task<T> GetByIdAsync(int id);
+         Task<TEntity> GetByIdAsync(int id);
 
-         Task<T[]> GetAllAsync();
+         Task<TEntity[]> GetAllAsync();
 
-         Task<T> GetEntity(ISpecification<T> spec);
+         Task<TEntity> GetEntityAsync(ISpecification<TEntity> spec);
 
-         Task<T[]> GetEntities(ISpecification<T> spec);
+         Task<TEntity[]> GetEntitiesAsync(ISpecification<TEntity> spec);
 
-         Task<Pagination<T>> GetEntitiesPaged(ISpecification<T> spec, IPaginationParams paginationParams);
+         Task<Pagination<TEntity>> GetEntitiesPagedAsync(ISpecification<TEntity> spec, IPaginationParams paginationParams);
 
-         Task<Pagination<S>> GetEntitiesPaged<S>(ISpecification<T> spec, IPaginationParams paginationParams, Func<T[], S[]> convertResults) where S : class;
+         Task<Pagination<S>> GetEntitiesPagedAsync<S>(ISpecification<TEntity> spec, IPaginationParams paginationParams, Func<TEntity[], S[]> convertResults) where S : class;
 
-         Task<int> CountAsync(ISpecification<T> spec);
+         Task<int> CountAsync(ISpecification<TEntity> spec);
+
+         void Add(TEntity entity);
+
+         void Update(TEntity entity);
+
+         void Delete(TEntity entity);
     }
 }

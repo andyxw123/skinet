@@ -6,7 +6,7 @@ namespace Infrastructure.Data.Config
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
-        // This configuration is applied by overriding OnModelCreating(..) in StoreContext
+        // This configuration is applied by overriding OnModelCreating(..) in StoreContext (ApplyConfigurationsFromAssembly)
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.Property(p => p.Name).IsRequired().HasMaxLength(100);

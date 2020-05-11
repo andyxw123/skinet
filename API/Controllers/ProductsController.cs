@@ -32,11 +32,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ProductForReturnDto[]>> GetProducts([FromQuery] ProductsFilterParams productParams)
+        public async Task<ActionResult<ProductForReturnDto[]>> GetProducts([FromQuery] ProductsSearchParams productParams)
         {
-            var spec = new ProductsFilterSpec(productParams);
+            var spec = new ProductsSearchSpec(productParams);
 
-            var productsForReturnPaged = await _productRepo.GetEntitiesPaged<ProductForReturnDto>(spec, productParams, (products) => _mapper.Map<ProductForReturnDto[]>(products));
+            var productsForReturnPaged = await _productRepo.GetEntitiesPagedAsync<ProductForReturnDto>(spec, productParams, (products) => _mapper.Map<ProductForReturnDto[]>(products));
 
             Response.AddPaginationHeader(productsForReturnPaged);
 
@@ -48,7 +48,7 @@ namespace API.Controllers
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)] // Adds additional info to the Swagger documentation (if needed)
         public async Task<ActionResult<ProductForReturnDto>> GetProduct(int id)
         {
-            var productFromRepo = await _productRepo.GetEntity(new ProductsFilterSpec(id));
+            var productFromRepo = await _productRepo.GetEntityAsync(new ProductsSearchSpec(id));
 
             if (productFromRepo == null)
             {

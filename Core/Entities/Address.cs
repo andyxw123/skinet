@@ -1,6 +1,8 @@
+using Core.Interfaces;
+
 namespace Core.Entities
 {
-    public class Address : BaseEntity
+    public class Address : BaseEntity, IAddress
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -5,22 +5,22 @@ using Core.Interfaces;
 
 namespace Core.Specifications.Products
 {
-    public class ProductsFilterSpec : BaseSpecification<Product>
+    public class ProductsSearchSpec : BaseSpecification<Product>
     {
-        public ProductsFilterSpec()
+        public ProductsSearchSpec()
         {
             AddIncludes(
                 x => x.ProductType,
                 x => x.ProductBrand);
         }
 
-        public ProductsFilterSpec(int id)
+        public ProductsSearchSpec(int id)
             : this()
         {
             this.AddCriteria(x => x.Id == id);
         }
 
-        public ProductsFilterSpec(ProductsFilterParams productParams)
+        public ProductsSearchSpec(ProductsSearchParams productParams)
            : this()
         {
             if (productParams == null)

@@ -54,8 +54,9 @@ namespace API.Extensions
             return services;
         }
 
-        public static IServiceCollection AppRepositories(this IServiceCollection services)
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            services.AddScoped(typeof(IRepositoryUnitOfWork), typeof(StoreRepoUnitOfWork));
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // Note the empty angle brackets as the generic type isn't known yet
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
             return services;
@@ -106,6 +107,13 @@ namespace API.Extensions
                         ValidateAudience = false
                     };
                 });
+
+            return services;
+        }
+
+        public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
+        {
+            services.AddScoped<IOrderService, OrderService>();
 
             return services;
         }

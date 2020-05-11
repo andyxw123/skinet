@@ -2,7 +2,7 @@ using Core.Classes;
 
 namespace Core.Specifications.Products
 {
-    public class ProductsFilterParams : PaginationParams
+    public class ProductsSearchParams : PaginationParams
     {
         public int? BrandId { get; set; }
 
