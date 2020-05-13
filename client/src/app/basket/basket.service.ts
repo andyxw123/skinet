@@ -42,7 +42,6 @@ export class BasketService {
       (response: IBasket) => {
         this.basketSource.next(basket);
         this.populateBasketSummary();
-        console.log(response);
       },
       (error) => {
         console.log(error);

@@ -1,0 +1,11 @@
+<div class="row" *ngIf="order">
+    <div class="col-8">
+        <app-basket-items [orderItems]="order.orderItems"></app-basket-items>
+    </div>
+    <div class="col-4">
+        <div class="d-flex justify-content-center bg-light font-weight-bold text-uppercase border-bottom" style="padding: 13px 0;">
+            Order Summary
+        </div>
+        <app-basket-summary [order]="order"></app-basket-summary>
+    </div>
+</div>

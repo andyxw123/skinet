@@ -1,4 +1,4 @@
-<ng-container *ngIf="(basket$ | async) || { items: []} as basket;">
+<ng-container *ngIf="orderItems || ((basket$ | async) || {}).items || [] as items;">
 
     <table class="table table-middle" [class.table-hover]="!isReadOnly">
         <thead>
@@ -20,12 +20,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of basket.items">
+            <tr *ngFor="let item of items">
                 <td width="1" class="bg-light">
-                    <img src="{{item.pictureUrl}}" alt="{{item.name}}" style="max-height: 50px;" />
+                    <img src="{{item.pictureUrl}}" alt="{{item.name || item.productName}}" style="max-height: 50px;" />
                 </td>
                 <td>
-                    <a routerLink="/shop/products/{{item.id}}">{{item.name}}</a>
+                    <a routerLink="/shop/products/{{item.id || item.productId}}">{{item.name || item.productName}}</a>
                 </td>
                 <td class="text-right">
                     {{item.price | currency}}
@@ -50,12 +50,12 @@
             </tr>
         </tbody>
         <tfoot>
-            <tr *ngIf="!basket.items.length" colspan="6">
+            <tr *ngIf="!items.length" colspan="6">
                 <td>
                     Your basket is empty
                 </td>
             </tr>
-            <ng-container *ngIf="showSummary && basket.items.length">
+            <ng-container *ngIf="showSummary && items.length">
                 <tr>
                     <td colspan="3" class="text-info">
                         <i class="fa fa-info-circle mr-1"></i>

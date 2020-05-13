@@ -1,27 +1,32 @@
-<ng-container *ngIf="(basketSummary$ | async) as basketSummary">
+<ng-container *ngIf="order || (basketSummary$ | async) as order">
     <table class="table text-nowrap" style="margin: 0">
         <tr>
             <td>
-                <b>Cart Total</b>
+                <b>Sub Total</b>
             </td>
             <td class="text-right">
-                <b>{{ basketSummary.subtotal | currency }}</b>
+                <b>{{ order.subtotal || order.subTotal | currency }}</b>
             </td>
         </tr>
         <tr>
             <td>
                 Shipping
             </td>
-            <td class="text-right font-weight-bold" [class.text-info]="basketSummary.shipping === null">
-                {{ basketSummary.shipping === null ? 'TBC' : basketSummary.shipping | currency }}
+            <td class="text-right font-weight-bold">
+                <div *ngIf="(order.shippingPrice || order.shipping) !== null">
+                    {{ order.shippingPrice || order.shipping | currency }}
+                </div>
+                <div *ngIf="(order.shippingPrice || order.shipping) === null" class="text-info">
+                    TBC
+                </div>
             </td>
         </tr>
-        <tr *ngIf="basketSummary.shipping !== null">
+        <tr *ngIf="order.shipping !== null">
             <td>
                 <h3>Total</h3>
             </td>
             <td class="text-right w-100">
-                <h3 class="ml-2">{{ basketSummary.total | currency }}</h3>
+                <h3 class="ml-2">{{ order.total | currency }}</h3>
             </td>
         </tr>
     </table>

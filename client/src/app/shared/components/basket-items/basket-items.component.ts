@@ -3,6 +3,7 @@ import { BasketService } from 'src/app/basket/basket.service';
 import { Observable } from 'rxjs';
 import { IBasket } from '../../models/i-basket';
 import { IBasketItem } from '../../models/i-basket-item';
+import { IOrderItem } from '../../models/i-order';
 
 @Component({
   selector: 'app-basket-items',
@@ -13,6 +14,7 @@ export class BasketItemsComponent implements OnInit {
   basket$: Observable<IBasket>;
   @Input() showSummary = false;
   @Input() isReadOnly = true;
+  @Input() orderItems: IBasketItem | IOrderItem[];
 
   constructor(private basketService: BasketService) { }
 
