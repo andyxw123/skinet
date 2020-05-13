@@ -9,13 +9,13 @@ import { Observable } from 'rxjs';
 import { AccountService } from 'src/app/account/account.service';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class JwtInterceptor implements HttpInterceptor {
   constructor(private accountService: AccountService) {}
 
   intercept(
-    request: HttpRequest<unknown>,
+    request: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<unknown>> {
+  ): Observable<HttpEvent<any>> {
     const token = this.accountService.getToken();
 
     if (token) {

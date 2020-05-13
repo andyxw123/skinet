@@ -9,6 +9,7 @@ import { IBasketItem } from '../shared/models/i-basket-item';
 import { Basket } from '../shared/models/basket';
 import { ToastrService } from 'ngx-toastr';
 import { IBasketSummary } from '../shared/models/i-basket-summary';
+import { IDeliveryMethod } from '../shared/models/i-delivery-method';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ export class BasketService {
   basket$ = this.basketSource.asObservable();
   private basketSummarySource = new BehaviorSubject<IBasketSummary>(null);
   basketSummary$ = this.basketSummarySource.asObservable();
+  shipping?: number = null;
+  deliveryMethodId?: number = null;
 
   constructor(private http: HttpClient, private toast: ToastrService) {
   }
@@ -66,6 +69,12 @@ export class BasketService {
     }, error => {
       console.log(error);
     });
+  }
+
+  resetBasket() {
+    this.basketSource.next(null);
+    this.basketSummarySource.next(null);
+    localStorage.removeItem('basketId');
   }
 
   getBasketSourceValue() {
@@ -117,11 +126,11 @@ export class BasketService {
 
     const summary = {
       subtotal: basket.items.reduce((x, y) => (y.price * y.quantity) + x, 0),
-      shipping: 0,
+      shipping: this.shipping,
       total: 0
     };
 
-    summary.total = summary.subtotal + summary.shipping;
+    summary.total = summary.subtotal + (summary.shipping || 0);
 
     this.basketSummarySource.next(summary);
 
@@ -162,5 +171,11 @@ export class BasketService {
         localStorage.removeItem(basket.id);
       });
     }
+  }
+
+  setShippingPrice(deliveryMethod: IDeliveryMethod) {
+    this.shipping = deliveryMethod ? deliveryMethod.price : null;
+    this.deliveryMethodId = deliveryMethod ? deliveryMethod.id : null;
+    this.populateBasketSummary();
   }
 }

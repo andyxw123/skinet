@@ -1,0 +1,14 @@
+button.nav-link {
+    border-radius: 0;
+    border: none;
+
+    &:focus {
+        outline: none;
+    }
+    & :active {
+        outline: none;
+    }
+    &.active:focus {
+        outline:none;
+    }
+}

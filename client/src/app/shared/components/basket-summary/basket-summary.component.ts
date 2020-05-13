@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./basket-summary.component.scss']
 })
 export class BasketSummaryComponent implements OnInit {
-  @Input() isShippingTBC: false;
   basketSummary$: Observable<IBasketSummary>;
 
   constructor(private basketService: BasketService) { }

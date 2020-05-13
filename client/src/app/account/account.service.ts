@@ -5,6 +5,7 @@ import { IUser } from '../shared/models/i-user';
 import { ReplaySubject, of, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { IAddress } from '../shared/models/i-address';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,14 @@ export class AccountService {
     return this.http
       .post(this.baseUrl + 'account/register', values)
       .pipe(map((user: IUser) => this.onLoginSuccessful(user, navigateUrl)));
+  }
+
+  getUserAddress$() {
+    return this.http.get<IAddress>(this.baseUrl + 'account/address');
+  }
+
+  updateUserAddress$(address: IAddress) {
+    return this.http.put<IAddress>(this.baseUrl + 'account/address', address);
   }
 
   getToken() {

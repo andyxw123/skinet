@@ -18,7 +18,7 @@ import { RouteReuseStrategy, Scroll, Router } from '@angular/router';
 import { AppRouteReuseStrategy } from './app-route-reuse-strategy';
 import { ViewportScroller } from '@angular/common';
 import { filter } from 'rxjs/operators';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,7 +40,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
 
     // Add to Angular's HTTP interceptors array - multi must be true
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Add the Authorization header token
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, // Add the Authorization header token
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, // Intercept HTTP requests and redirect to error pages
     {
       provide: HTTP_INTERCEPTORS,
