@@ -15,19 +15,18 @@ import { IDeliveryMethod } from '../shared/models/i-delivery-method';
   providedIn: 'root',
 })
 export class BasketService {
-  baseUrl = environment.apiUrl + 'basket/';
+  baseUrl = environment.apiUrl;
   private basketSource = new BehaviorSubject<IBasket>(null);
   basket$ = this.basketSource.asObservable();
   private basketSummarySource = new BehaviorSubject<IBasketSummary>(null);
   basketSummary$ = this.basketSummarySource.asObservable();
   shipping?: number = null;
-  deliveryMethodId?: number = null;
 
   constructor(private http: HttpClient, private toast: ToastrService) {
   }
 
   getBasket$(id: string) {
-    return this.http.get(this.baseUrl + `?id=${id}`).pipe(
+    return this.http.get(this.baseUrl + `basket?id=${id}`).pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
         this.populateBasketSummary();
@@ -36,11 +35,12 @@ export class BasketService {
   }
 
   setBasket$(basket: IBasket) {
-    const setBasket$ = this.http.post(this.baseUrl, basket);
+    const setBasket$ = this.http.post(this.baseUrl + 'basket', basket);
 
     setBasket$.subscribe(
       (response: IBasket) => {
         this.basketSource.next(basket);
+        this.shipping = basket.shippingPrice;
         this.populateBasketSummary();
       },
       (error) => {
@@ -51,10 +51,14 @@ export class BasketService {
     return setBasket$;
   }
 
-  deleteBasket$(basketId: string) {
-    const params = new HttpParams().append('id', basketId);
-
-    return this.http.delete(this.baseUrl, { params });
+  createPaymentIntent$() {
+    return this.http.post<IBasket>(this.baseUrl + 'payments/' + this.getBasketSourceValue().id, {})
+      .pipe(
+        map(basket => {
+          this.basketSource.next(basket);
+          return basket;
+        })
+      );
   }
 
   initBasket() {
@@ -76,6 +80,16 @@ export class BasketService {
     localStorage.removeItem('basketId');
   }
 
+  deleteBasket(basket: IBasket) {
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(() => {
+      this.basketSource.next(null);
+      this.basketSummarySource.next(null);
+      localStorage.removeItem('basket_id');
+    }, error => {
+      console.log(error);
+    });
+  }
+
   getBasketSourceValue() {
     return this.basketSource.value;
   }
@@ -93,7 +107,7 @@ export class BasketService {
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
     this.setBasket$(basket).subscribe((response: IBasket) => {
         if (response) {
-          this.toast.success(`${product.name} (${quantity}) added to basket`);
+          this.toast.success(`${product.name} added to basket`);
         }
     });
   }
@@ -166,15 +180,18 @@ export class BasketService {
     if (basket.items.length) {
       this.setBasket$(basket);
     } else {
-      this.deleteBasket$(basket.id).subscribe(() => {
-        localStorage.removeItem(basket.id);
-      });
+      this.deleteBasket(basket);
     }
   }
 
   setShippingPrice(deliveryMethod: IDeliveryMethod) {
+    const basket = this.getBasketSourceValue();
+    basket.deliveryMethodId = deliveryMethod ? deliveryMethod.id : null;
+    basket.shippingPrice = deliveryMethod ? deliveryMethod.price : null;
     this.shipping = deliveryMethod ? deliveryMethod.price : null;
-    this.deliveryMethodId = deliveryMethod ? deliveryMethod.id : null;
+
     this.populateBasketSummary();
+
+    this.setBasket$(basket);
   }
 }

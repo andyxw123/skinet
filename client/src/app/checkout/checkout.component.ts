@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../account/account.service';
+import { BasketService } from '../basket/basket.service';
 
 @Component({
   selector: 'app-checkout',
@@ -12,12 +13,14 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private basketService: BasketService
   ) {}
 
   ngOnInit(): void {
     this.createCheckoutForm();
     this.populateAddressForm();
+    this.populateDeliveryForm();
   }
 
   createCheckoutForm() {
@@ -40,15 +43,30 @@ export class CheckoutComponent implements OnInit {
   }
 
   populateAddressForm() {
-    this.accountService.getUserAddress$().subscribe((r) => {
-      if (r) {
-        // To populate the form, can use either...
-        //   .setValue(..) - object must contain all form values; or
-        //   .patchValue(..) - object can contain any number of form values
-        this.checkoutForm.get('addressForm').patchValue(r);
+    this.accountService.getUserAddress$().subscribe(
+      (r) => {
+        if (r) {
+          // To populate the form, can use either...
+          //   .setValue(..) - object must contain all form values; or
+          //   .patchValue(..) - object can contain any number of form values
+          this.checkoutForm.get('addressForm').patchValue(r);
+        }
+      },
+      (error) => {
+        console.log(error);
       }
-    }, error => {
-      console.log(error);
-    });
+    );
+  }
+
+  populateDeliveryForm() {
+    const basket = this.basketService.getBasketSourceValue();
+    if (basket.deliveryMethodId) {
+      // Need to cast the value to a string otherwise the radio button won't be selected in the UI
+      this.checkoutForm
+        .get('deliveryForm.deliveryMethodId')
+        .patchValue(
+          basket.deliveryMethodId ? basket.deliveryMethodId.toString() : null
+        );
+    }
   }
 }

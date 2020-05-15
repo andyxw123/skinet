@@ -8,7 +8,7 @@ using Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Services.Identity
 {
     // This service is responsible for creating the JWT token and will be configured
     // in the API's Startup.cs to allow it to be used by the by the

@@ -38,7 +38,7 @@ namespace API
                 .AddDataContexts(_config)
                 .AddRedisConfig(_config)
                 .AddRepositories()
-                .AddBusinessLogicServices()
+                .AddBusinessLogicServices()  // Business Logic for the application
                 .AddAutoMapperProfiles()
                 .AddSwaggerDocumentation();
         }

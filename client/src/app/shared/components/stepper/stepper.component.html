@@ -1,7 +1,12 @@
 
     <ul class="nav nav-pills nav-justified">
         <li class="nav-item" *ngFor="let step of steps; let i = index">
-            <button [class.active]="selectedIndex === i" [class.bg-light]="selectedIndex !== i" class="nav-link py-3 text-uppercase font-weight-bold btn-block" (click)="onClick(i)">
+            <button [disabled]=true
+                style="pointer-events: none;"
+                [class.active]="selectedIndex === i" 
+                [class.bg-light]="selectedIndex !== i" 
+                class="nav-link py-3 text-uppercase font-weight-bold btn-block" 
+                (click)="onClick(i)">
                 <i *ngIf="step.completed && i !== steps.length - 1" class="fa fa-check-circle"></i>
                 {{step.label}}
             </button>

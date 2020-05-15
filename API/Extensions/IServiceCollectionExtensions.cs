@@ -15,7 +15,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Infrastructure.Services;
+using Infrastructure.Services.Identity;
+using Infrastructure.Services.BusinessLogic;
 
 namespace API.Extensions
 {
@@ -114,6 +115,7 @@ namespace API.Extensions
         public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
         {
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             return services;
         }

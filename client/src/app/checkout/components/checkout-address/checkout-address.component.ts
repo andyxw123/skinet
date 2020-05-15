@@ -17,8 +17,12 @@ export class CheckoutAddressComponent implements OnInit {
   }
 
   saveUserAddress() {
-    this.accountService.updateUserAddress$(this.checkoutForm.get('addressForm').value).subscribe(r => {
+    this.accountService.updateUserAddress$(this.checkoutForm.get('addressForm').value).subscribe(address => {
         this.toast.success('Address updated');
+
+        // Reset the form with the returned address.
+        /// Also marks the form as pristine so the "Save As Default" button becomes disabled.
+        this.checkoutForm.get('addressForm').reset(address);
     }, error => {
       console.log(error);
     });

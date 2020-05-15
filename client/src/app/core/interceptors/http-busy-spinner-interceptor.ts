@@ -15,18 +15,29 @@ export class HttpBusySpinnerInterceptor implements HttpInterceptor {
 
   // Requests to urls containing the following won't display the busy spinner
   // (for situations where an in-line busy spinner is being diplayed etc)
-  private ignoreUrlsEndingWith = [
-    '&_',
-    '?_'
-  ];
+  private ignoreUrlsEndingWith = ['&_', '?_'];
+
+  private ignoreUrlsContaining = [];
+
+  private ignoreRequestsWhere = [{
+    method: 'POST',
+    urlIncludes: 'orders'
+  }];
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (!this.ignoreUrlsEndingWith.some((x) => request.url.endsWith(x))) {
-      this.busyService.busy();
+    if (
+      this.ignoreUrlsEndingWith.some((x) => request.url.endsWith(x)) ||
+      this.ignoreUrlsContaining.some((x) => request.url.includes(x)) ||
+      this.ignoreRequestsWhere.some((x) => request.method === x.method && request.url.includes(x.urlIncludes))
+    ) {
+      return next.handle(request);
     }
+
+    this.busyService.busy();
+
     return next.handle(request).pipe(
       finalize(() => {
         this.busyService.idle();

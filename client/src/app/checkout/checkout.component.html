@@ -1,16 +1,18 @@
 <div class="row">
     <div class="col-8">
-        <app-stepper #appStepper [linearModeEnabled]="false">
-            <cdk-step [label] = "'Address'" [completed]="checkoutForm.get('addressForm').valid">
+        <app-stepper #appStepper [linearModeEnabled]="true">
+            <cdk-step [label]="'Address'" [completed]="checkoutForm.get('addressForm').valid">
                 <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
             </cdk-step>
-            <cdk-step [label] = "'Delivery'" [completed]="checkoutForm.get('deliveryForm').valid">
+            <cdk-step [label]="'Delivery'" [completed]="checkoutForm.get('deliveryForm').valid">
                 <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
             </cdk-step>
-            <cdk-step [label] = "'Review'">
-                <app-checkout-review></app-checkout-review>
+            <cdk-step [label]="'Review'">
+                <!-- Pass appStepper (as named by the #appStepper reference variable above) to the
+                     app-checkout-review component so it can access it (for example to move to next step programmatically -->
+                <app-checkout-review [appStepper]="appStepper"></app-checkout-review>
             </cdk-step>
-            <cdk-step [label] = "'Payment'">
+            <cdk-step [label]="'Payment'">
                 <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
             </cdk-step>
         </app-stepper>
