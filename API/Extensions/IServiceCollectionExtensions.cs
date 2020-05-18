@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Infrastructure.Services.Identity;
 using Infrastructure.Services.BusinessLogic;
+using Infrastructure.Services;
 
 namespace API.Extensions
 {
@@ -114,6 +115,8 @@ namespace API.Extensions
 
         public static IServiceCollection AddBusinessLogicServices(this IServiceCollection services)
         {
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPaymentService, PaymentService>();
 

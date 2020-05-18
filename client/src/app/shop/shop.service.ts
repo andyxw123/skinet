@@ -7,12 +7,16 @@ import { IPaginationParams } from '../shared/models/i-pagination-params';
 import { INamedItem } from '../shared/models/i-named-item';
 import { map } from 'rxjs/operators';
 import { Pagination } from '../shared/models/pagination-T';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShopService {
   baseUrl = environment.apiUrl;
+  cachedProducts: IProduct[] = [];
+  cachedTypes: INamedItem[];
+  cachedBrands: INamedItem[];
 
   constructor(private http: HttpClient) {}
 
@@ -45,34 +49,57 @@ export class ShopService {
     }
 
     return this.http
-      .get<IProduct[]>(this.baseUrl + 'products', {
-        observe: 'response',
+      .get<Pagination<IProduct>>(this.baseUrl + 'products', {
         params,
       })
       .pipe(
-        map((response) => {
-          const paginatedResult = new Pagination<IProduct>();
-          paginatedResult.data = response.body;
+        map(response => {
+          // Cache the product search results - the getProduct$(..) medthod will check this
+          this.cachedProducts = response.data;
 
-          Object.assign(
-            paginatedResult,
-            JSON.parse(response.headers.get('Pagination') || null)
-          );
+          // Object.assign(
+          //   paginatedResult,
+          //   JSON.parse(response.headers.get('Pagination') || null)
+          // );
 
-          return paginatedResult;
+          return response;
         })
       );
   }
 
   getProduct$(id: number) {
+    const product = this.cachedProducts.find(x => x.id === id);
+
+    if (product) {
+      return of(product); // This returns an Observable<Product>
+    }
+
     return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
   }
 
   getProductTypes$() {
-    return this.http.get<INamedItem[]>(this.baseUrl + 'products/types');
+    if (this.cachedTypes) {
+      return of(this.cachedTypes);
+    }
+
+    return this.http.get<INamedItem[]>(this.baseUrl + 'products/types').pipe(
+      map(r => {
+        this.cachedTypes = r;
+        return r;
+      })
+    );
   }
 
   getProductBrands$() {
-    return this.http.get<INamedItem[]>(this.baseUrl + 'products/brands');
+    if (this.cachedBrands) {
+      return of(this.cachedBrands);
+    }
+
+    return this.http.get<INamedItem[]>(this.baseUrl + 'products/brands').pipe(
+      map(r => {
+        this.cachedBrands = r;
+        return r;
+      })
+    );
   }
 }
