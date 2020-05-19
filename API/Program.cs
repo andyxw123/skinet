@@ -28,7 +28,7 @@ namespace API
                 try
                 {
                     await services.MigrateAppIdentityDbContextAndSeedData(isSeedingData: environment.IsDevelopment());
-                    await services.MigrateStoreContexteAndSeedData(isSeedingData: environment.IsDevelopment());
+                    await services.MigrateStoreContexteAndSeedData(isSeedingData: true); //environment.IsDevelopment());
                 }
                 catch (Exception ex)
                 {

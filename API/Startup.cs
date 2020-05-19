@@ -1,3 +1,4 @@
+using System.IO;
 using API.Extensions;
 using API.Middleware;
 using Core.Interfaces;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace API
@@ -18,7 +20,20 @@ namespace API
             _config = config;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDataContextsForDevelopment(_config);
+
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDataContextsForProduction(_config);
+
+            ConfigureServices(services);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -35,7 +50,6 @@ namespace API
             // ../Extensions/IServiceCollectionExtensions.cs
             services.AddApiValidationErrorResponseConfig()
                 .AddIdentityServices(_config)
-                .AddDataContexts(_config)
                 .AddRedisConfig(_config)
                 .AddRepositories()
                 .AddBusinessLogicServices()  // Business Logic for the application
@@ -43,7 +57,7 @@ namespace API
                 .AddSwaggerDocumentation();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             //NOTE: Ordering of the HTTP pipeline is important
@@ -65,6 +79,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
 
             // If there's problems with HTTPS in Chrome for development add the following to appsettings.Development.json
@@ -77,6 +92,12 @@ namespace API
 
             // Enable serving of static files
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), "Content")
+                ), RequestPath = "/content"
+            });
         }
     }
 }

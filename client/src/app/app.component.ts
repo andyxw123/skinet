@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 import { ThemeService } from './core/services/theme.service';
 import { BasketService } from './basket/basket.service';
 import { AccountService } from './account/account.service';

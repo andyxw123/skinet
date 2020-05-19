@@ -12,7 +12,7 @@ namespace Infrastructure.Data.Config
             builder.Property(p => p.Name).IsRequired().HasMaxLength(100);
 
             // Specify non-nullable strings and max lengths
-            builder.Property(p => p.Description).IsRequired().HasMaxLength(180);
+            builder.Property(p => p.Description).IsRequired();
             builder.Property(p => p.Name).IsRequired().HasMaxLength(100);
             builder.Property(p => p.PictureUrl).IsRequired();
 

@@ -30,17 +30,32 @@ namespace API.Extensions
             return services;
         }
 
-        public static IServiceCollection AddDataContexts(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddDataContextsForDevelopment(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<StoreContext>(x =>
             {
-                //x.UseLazyLoadingProxies();
                 x.UseSqlite(config.GetConnectionString("DefaultConnection"));
             });
 
             services.AddDbContext<AppIdentityDbContext>(x => 
             {
                 x.UseSqlite(config.GetConnectionString("IdentityConnection"));
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddDataContextsForProduction(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddDbContext<StoreContext>(x =>
+            {
+                //x.UseLazyLoadingProxies();  // Microsoft.EntityFrameworkCore.Proxies
+                x.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddDbContext<AppIdentityDbContext>(x => 
+            {
+                x.UseSqlServer(config.GetConnectionString("IdentityConnection"));
             });
 
             return services;

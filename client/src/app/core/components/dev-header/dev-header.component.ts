@@ -11,7 +11,7 @@ export class DevHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.isDevMode = isDevMode();
+    this.isDevMode = true; // isDevMode();
   }
 
 }

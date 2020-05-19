@@ -25,6 +25,8 @@ export class ThemeService {
     this.currentTheme = localStorage.getItem('theme');
   }
 
+  // NOTE: For some reason IE shows a blank page and just a busy spinner
+  //       so the the load event isn't being triggered
   loadTheme(theme?: string) {
     theme = (theme || this.currentTheme || '').trim().toLowerCase();
 
@@ -60,7 +62,6 @@ export class ThemeService {
     cssThemeLink.href = themeCss;
 
     cssThemeLink.addEventListener('load', () => {
-      document.body.removeAttribute('hidden');
       this.setIsLoadingTheme(false);
     });
 
